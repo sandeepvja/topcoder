@@ -5,70 +5,64 @@ import java.util.LinkedList;
 import java.util.Set;
 
 
+class Pair{
+	int x;
+	int y;
+	int k;
+	
+	public Pair(int x, int y, int k) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.k = k;
+	}
+	public int getX() {
+		return x;
+	}
+	public void setX(int x) {
+		this.x = x;
+	}
+	public int getY() {
+		return y;
+	}
+	public void setY(int y) {
+		this.y = y;
+	}
+	public int getK() {
+		return k;
+	}
+	public void setK(int k) {
+		this.k = k;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pair other = (Pair) obj;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
+	}
+	
+}
 public class TheGridDivTwo
 {
-	
-	class Pair{
-		int x;
-		int y;
-		int k;
-		
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getOuterType().hashCode();
-			result = prime * result + x;
-			result = prime * result + y;
-			return result;
-		}
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Pair other = (Pair) obj;
-			if (!getOuterType().equals(other.getOuterType()))
-				return false;
-			
-			if (x != other.x)
-				return false;
-			if (y != other.y)
-				return false;
-			return true;
-		}
-		public Pair(int x, int y, int k) {
-			super();
-			this.x = x;
-			this.y = y;
-			this.k = k;
-		}
-		public int getX() {
-			return x;
-		}
-		public void setX(int x) {
-			this.x = x;
-		}
-		public int getY() {
-			return y;
-		}
-		public void setY(int y) {
-			this.y = y;
-		}
-		public int getK() {
-			return k;
-		}
-		public void setK(int k) {
-			this.k = k;
-		}
-		private TheGridDivTwo getOuterType() {
-			return TheGridDivTwo.this;
-		}
-		
-	}
+	int k;
+
 	public int find(int[] x, int[] y, int k)
 	{
 		this.k = k;
@@ -93,22 +87,23 @@ public class TheGridDivTwo
 			
 				visited.add(cur);
 				
-				Pair east = new Pair(cur.getX() + 1, cur.getY(), cur.getK() + 1);
-				Pair west = new Pair(cur.getX() - 1, cur.getY(), cur.getK() + 1);
-				Pair north = new Pair(cur.getX(), cur.getY() + 1, cur.getK() + 1);
-				Pair south = new Pair(cur.getX(), cur.getY() - 1, cur.getK() + 1);
-				
-				addToQueue(blocked, queue, east);
-				addToQueue(blocked, queue, west);
-				addToQueue(blocked, queue, north);
-				addToQueue(blocked, queue, south);
+				if(cur.getK() + 1 <= k) {
+					Pair east = new Pair(cur.getX() + 1, cur.getY(), cur.getK() + 1);
+					Pair west = new Pair(cur.getX() - 1, cur.getY(), cur.getK() + 1);
+					Pair north = new Pair(cur.getX(), cur.getY() + 1, cur.getK() + 1);
+					Pair south = new Pair(cur.getX(), cur.getY() - 1, cur.getK() + 1);
+					
+					addToQueue(blocked, queue, east);
+					addToQueue(blocked, queue, west);
+					addToQueue(blocked, queue, north);
+					addToQueue(blocked, queue, south);
+				}
 			}
 		}
 		return maxX;
 	}
-	int k;
 	private void addToQueue(Set<Pair> blocked, LinkedList<Pair> queue, Pair pair) {
-		if(!blocked.contains(pair) && pair.getK() <= k) {
+		if(!blocked.contains(pair) ) {
 			queue.add(pair);
 		}
 	}

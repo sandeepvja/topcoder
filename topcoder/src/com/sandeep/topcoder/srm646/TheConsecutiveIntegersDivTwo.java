@@ -1,26 +1,28 @@
 package com.sandeep.topcoder.srm646;
 
+import java.util.*;
+import java.util.regex.*;
+import java.text.*;
+import java.math.*;
+import java.awt.geom.*;
 
 public class TheConsecutiveIntegersDivTwo
 {
-	
+
 	public int find(int[] numbers, int k)
 	{
+		int min = Integer.MAX_VALUE;
 		if(k == 1) {
 			return 0;
 		}
-		else {
-			int min = Integer.MAX_VALUE;
-			for(int i = 0; i < numbers.length; i++) {
-				for(int j = i + 1; j < numbers.length; j++) {
-					
-					min = Math.min(min, Math.abs(numbers[i] - numbers[j]) - 1);
-				}
-			} 
-			return min;
+		for(int i = 0; i < numbers.length; i++) {
+			for(int j = i + 1; j < numbers.length; j++) {
+				min = Math.min(Math.abs(numbers[i] - numbers[j]) - 1, min);
+						
+			}
 		}
+		return min;
 	}
-	
 	
 	public static void main(String[] args)
 	{

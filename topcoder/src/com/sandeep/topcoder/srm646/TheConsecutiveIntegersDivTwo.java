@@ -18,15 +18,14 @@ public class TheConsecutiveIntegersDivTwo
 			int min = Integer.MAX_VALUE;
 			for(int i = 0; i < numbers.length; i++) {
 				for(int j = i + 1; j < numbers.length; j++) {
-					min = min(min,Math.abs(numbers[i] - numbers[j]) - 1);
+					
+					min = Math.min(min, Math.abs(numbers[i] - numbers[j]) - 1);
 				}
 			}
 			return min;
 		}
 	}
-	public int min(int a, int b) {
-		return a <= b ? a : b;
-	}
+	
 	
 	public static void main(String[] args)
 	{

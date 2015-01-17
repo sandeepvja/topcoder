@@ -1,4 +1,4 @@
-package com.sandeep.topcoder.srn643;
+package com.sandeep.topcoder.srm643;
 
 public class OkonomiyakiShop {
 	public int count(int[] osize, int K) {

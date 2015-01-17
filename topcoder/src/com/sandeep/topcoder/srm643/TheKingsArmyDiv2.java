@@ -1,4 +1,4 @@
-package com.sandeep.topcoder.srn643;
+package com.sandeep.topcoder.srm643;
 
 import java.util.*;
 import java.util.regex.*;

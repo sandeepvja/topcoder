@@ -16,7 +16,7 @@ public class TheConsecutiveIntegersDivTwo
 					
 					min = Math.min(min, Math.abs(numbers[i] - numbers[j]) - 1);
 				}
-			}
+			} 
 			return min;
 		}
 	}

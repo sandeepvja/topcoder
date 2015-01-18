@@ -7,73 +7,58 @@ import java.math.*;
 import java.awt.geom.*;
 
 import javax.annotation.PostConstruct;
+import javax.crypto.spec.PSource;
 
 public class ConnectingCars
 {
-	class Point implements Comparable<Point>{
+	class Pair implements Comparable<Pair>{
 		int x;
 		int y;
-		public int getX() {
-			return x;
-		}
-		public void setX(int x) {
+		
+		public Pair(int x, int y) {
+			
 			this.x = x;
-		}
-		public int getY() {
-			return y;
-		}
-		public void setY(int y) {
 			this.y = y;
 		}
+
 		@Override
-		public int compareTo(Point that) {
-			if(this.x > that.x) {
-				return 1;
-			}
-			else if(this.x < that.x) {
+		public int compareTo(Pair o) {
+			if(x < o.x) {
 				return -1;
 			}
 			else {
-				return 0;
+				return 1;
 			}
 		}
-		public int distance(Point that) {
-			return Math.abs(this.y - that.x);
+
+		@Override
+		public String toString() {
+			return "Pair [x=" + x + ", y=" + y + "]";
 		}
+		
 	}
 	public long minimizeCost(int[] positions, int[] lengths)
 	{
-		int size = positions.length;
-		int middle = size % 2 == 0 ? size/2 - 1 : size/2 ;
-		
-		long energy = 0;
-		List<Point> points = new ArrayList<Point>();
-		for(int i = 0; i < positions.length; i++) {
-			Point p = new Point();
-			p.setX(positions[i]);
-			p.setY(positions[i] + lengths[i]);
-			
-			points.add(p);
-		}
-		
-		Collections.sort(points);
-		
-		long leftDist = 0;
-		for(int i = 1; i <= middle; i++) {
-			Point p1 = points.get(i - 1);
-			Point p2 = points.get(i);
-			leftDist = leftDist + i * p1.distance(p2);
-		}
-		
-		long rightDist = 0;
-
-		for(int i = middle + 1; i < positions.length - 1; i++) {
-			Point p1 = points.get(i);
-			Point p2 = points.get(i + 1);
-			rightDist = rightDist + (i + 1 - middle) * p1.distance(p2);
-		}
-		
-		return rightDist + leftDist;
+		  	Pair list[] = new Pair[positions.length];
+		    for (int i = 0; i < positions.length; ++i) {
+		    	list[i] = new Pair(positions[i], positions[i] + lengths[i]);
+		    }
+		    
+		    Arrays.sort(list);
+		    long sum = 0L;
+		    long n = positions.length;
+		    for(int i = 0; i < n - 1; i++) {
+		    	long leftDist = i + 1;
+		    	long rightDist = n - i - 1;
+		    	
+		    	long gap = list[i + 1].x - list[i].y;
+		    	
+		    	long minDist = gap * Math.min(leftDist, rightDist);
+		    	
+		    	sum += minDist;
+		    }
+		    
+		    return sum; 
 	}
 	
 	public static void main(String[] args)

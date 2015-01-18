@@ -1,111 +1,57 @@
 package com.sandeep.topcoder.srm646;
 
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
-
-class Pair{
-	int x;
-	int y;
-	int k;
-	
-	public Pair(int x, int y, int k) {
-		super();
-		this.x = x;
-		this.y = y;
-		this.k = k;
-	}
-	public int getX() {
-		return x;
-	}
-	public void setX(int x) {
-		this.x = x;
-	}
-	public int getY() {
-		return y;
-	}
-	public void setY(int y) {
-		this.y = y;
-	}
-	public int getK() {
-		return k;
-	}
-	public void setK(int k) {
-		this.k = k;
-	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + x;
-		result = prime * result + y;
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pair other = (Pair) obj;
-		if (x != other.x)
-			return false;
-		if (y != other.y)
-			return false;
-		return true;
-	}
-	
-}
 public class TheGridDivTwo
 {
-	int k;
-
+	class Point{
+		int x;
+		int y;
+		int dist;
+		Point(int x, int y, int dist) {
+			this.x = x;
+			this.y = y;
+			this.dist = dist;
+		}
+	}
+	int grid[][] = new int[2001][2001];
+	int moves[][] = {{1,0}, {-1, 0}, {0, 1}, {0, -1}};
+	int origin = 1000;
 	public int find(int[] x, int[] y, int k)
 	{
-		this.k = k;
-		Set<Pair> blocked = new HashSet<Pair>();
+		int maxDist = 0;
+		int maxX = origin;
+		
 		for(int i = 0; i < x.length; i++) {
-			Pair p = new Pair(x[i], y[i], 0);
-			blocked.add(p);
+			grid[origin + x[i]][origin + y[i]] = -1;
 		}
 		
-		Pair cur = new Pair(0, 0, 0);
-		int maxX = Integer.MIN_VALUE;
-		LinkedList<Pair> queue = new LinkedList<>();
-		queue.add(cur);
+		LinkedList<Point> que = new LinkedList<Point>();
+		que.add(new Point(origin, origin, 0));
 		
-		Set<Pair> visited = new HashSet<Pair>();
-		while(!queue.isEmpty()) {
+		while(!que.isEmpty()) {
 			
-			cur = queue.removeFirst();
-			maxX = Math.max(cur.getX(), maxX);
+			Point cur = que.removeFirst();
 			
-			if(!visited.contains(cur)) {
+			if(cur.x > maxX) {
+				maxX = cur.x;
+			}
 			
-				visited.add(cur);
-				
-				if(cur.getK() + 1 <= k) {
-					Pair east = new Pair(cur.getX() + 1, cur.getY(), cur.getK() + 1);
-					Pair west = new Pair(cur.getX() - 1, cur.getY(), cur.getK() + 1);
-					Pair north = new Pair(cur.getX(), cur.getY() + 1, cur.getK() + 1);
-					Pair south = new Pair(cur.getX(), cur.getY() - 1, cur.getK() + 1);
+			if(cur.dist < k) {
+				for(int i = 0; i < moves.length; i++) {
 					
-					addToQueue(blocked, queue, east);
-					addToQueue(blocked, queue, west);
-					addToQueue(blocked, queue, north);
-					addToQueue(blocked, queue, south);
+					int newX = cur.x + moves[i][0];
+					int newY = cur.y + moves[i][1];
+					int newDist = cur.dist + 1;
+					
+					if(grid[newX][newY] != -1) {
+						grid[newX][newY] = -1;
+						que.add(new Point(newX, newY, newDist));
+					}
 				}
 			}
 		}
-		return maxX;
-	}
-	private void addToQueue(Set<Pair> blocked, LinkedList<Pair> queue, Pair pair) {
-		if(!blocked.contains(pair) ) {
-			queue.add(pair);
-		}
+		return maxX - origin;
 	}
 
 	public static void main(String[] args)

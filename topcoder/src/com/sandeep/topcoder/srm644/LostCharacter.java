@@ -1,10 +1,6 @@
 package com.sandeep.topcoder.srm644;
 
-import java.util.*;
-import java.util.regex.*;
-import java.text.*;
-import java.math.*;
-import java.awt.geom.*;
+import java.util.Arrays;
 
 public class LostCharacter
 {
